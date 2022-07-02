@@ -1,4 +1,5 @@
 ﻿using ContactsApp.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,10 +35,14 @@ namespace ContactsApp
                 Email = emailTextBox.Text,
                 Phone = phoneTextBox.Text
             };
-            string databaseName = "Contas"
+
+            using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
+            {
+                connection.CreateTable<Contact>();
+                connection.Insert(contact);
+            }
 
             Close();
         }
-
     }
 }

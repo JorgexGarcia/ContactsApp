@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContactsApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,15 +21,57 @@ namespace ContactsApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<Contact> contacts;
         public MainWindow()
         {
             InitializeComponent();
+
+            contacts = new List<Contact>();
+
+            ReadDataBase();
         }
 
         private void NewContactButton_Click(object sender, RoutedEventArgs e)
         {
             NewContactWindow newContactWindows = new NewContactWindow();
             newContactWindows.ShowDialog();
+
+            ReadDataBase();
+        }
+
+        public void ReadDataBase()
+        {
+            using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.databasePath))
+            {
+                conn.CreateTable<Contact>();
+                contacts = (conn.Table<Contact>().ToList()).OrderBy(c => c.Name).ToList();
+            }
+
+            if(contacts != null)
+            {
+                contactListView.ItemsSource = contacts;
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            var textFilter = contacts.Where(c => c.Name.ToLower().Contains(textBox.Text.ToLower())).ToList();
+
+            contactListView.ItemsSource = textFilter;
+        }
+
+        private void SelectedContact_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Contact contact = contactListView.SelectedItem as Contact;
+
+            if(contact != null)
+            {
+                ContactDetailWindow contactDetailWindow = new ContactDetailWindow(contact);
+                contactDetailWindow.ShowDialog();
+            }
+
+            ReadDataBase();
         }
     }
 }
