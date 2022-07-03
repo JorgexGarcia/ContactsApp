@@ -5,11 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactsApp"
         mc:Ignorable="d"
-        Title="ContactDetailWindow" Height="450" Width="800">
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Title="ContactDetailWindow" Height="200" Width="300">
     <Grid>
         <StackPanel Margin="10">
+            <TextBlock Text="Name: "/>
             <TextBox x:Name="nameTextBox" Margin="0,0,0,5"/>
+            <TextBlock Text="Email: "/>
             <TextBox x:Name="emailTextBox" Margin="0,0,0,5"/>
+            <TextBlock Text="Phone: "/>
             <TextBox x:Name="phoneTextBox" Margin="0,0,0,5"/>
             <Button x:Name="updateButton" Click="UpdateButton_Click"  Content="Update" Margin="0,0,0,5"/>
             <Button x:Name="deleteButton" Click="DeleteButton_Click" Background="red" Foreground="White" Content="Delete" Margin="0,0,0,5"/>

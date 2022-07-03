@@ -30,6 +30,9 @@ namespace ContactsApp
             nameTextBox.Text = contact.Name;
             phoneTextBox.Text = contact.Phone;
             emailTextBox.Text = contact.Email;
+
+            Owner = Application.Current.MainWindow;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
